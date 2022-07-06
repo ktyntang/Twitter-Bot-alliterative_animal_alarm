@@ -4,15 +4,21 @@ from random import choice
 from wonderwords import RandomWord
 # from icrawler.builtin import GoogleImageCrawler
 
-def random_letter():
-    return choice(ascii_lowercase)
+def alliterative_content():
 
+    letter = choice(ascii_lowercase)
 
-def alliterative_content(letter):
+    with open('animals.txt','r+') as myfile:
+        list = myfile.read().splitlines()
+        prev_letter = list[0]
+        animals = list[1:]        
 
-    with open('animals.txt') as myfile:
-        animals = myfile.read().splitlines()
+        if letter == prev_letter:
+            letter = choice(ascii_lowercase)
 
+        myfile.seek(0)
+        myfile.write(letter)
+            
     animal_generator = RandomWord(animal=animals)
 
     w= RandomWord()
@@ -20,6 +26,9 @@ def alliterative_content(letter):
     verb_1 = w.word(starts_with = letter, include_categories=["verb"])
     verb_2 = w.word(starts_with = letter, include_categories=["verb"])
     animal = animal_generator.word(starts_with = letter)
+
+    if verb_1 == verb_2:
+        verb_2 = w.word(starts_with = letter, include_categories=["verb"])
 
     content = (
         f'''tick tock! it's {letter.upper()} o'clock!
@@ -36,9 +45,10 @@ def post_tweet(content):
     client.create_tweet(text = content)
 
 def main():
-    post_tweet(alliterative_content(random_letter()))
+    post_tweet(alliterative_content())
 
 if __name__ == '__main__':
     main()
+    print('tweet tweet!')
 
 
