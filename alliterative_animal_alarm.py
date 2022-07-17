@@ -4,28 +4,35 @@ from wonderwords import RandomWord
 import tweepy
 # from icrawler.builtin import GoogleImageCrawler
 
-def alliterative_content():
+client = tweepy.Client(
+            bearer_token = 'AAAAAAAAAAAAAAAAAAAAAD9leQEAAAAAY7ktUuHP5cdsxSspLB6jgSxdvNk%3DtZbwf3ir8TkuaEJ83HcIDVqTfLrCD1K0613fzwhCq0BGYXB0xk',
+            consumer_key = 'RGqpj7mID6idhtpklXO219eab',
+            consumer_secret = '5sTRD02qtLmAbhruVEnLDny5LegOL3ykRwPevD8Hocx4d0nTh5',
+            access_token = '1465738470068871170-1aodaw0786b5a8uDRH1q3ISUzcz0bO',
+            access_token_secret = 'ddzYusNniUX4oy4PZ1sff25Q6NyPQY2ZdtF1DKkt9Q3Jj')
 
-    letter = choice(ascii_lowercase)
 
-    with open('animals.txt','r+') as myfile:
-        lines = myfile.read().splitlines()
-        prev_letter = lines[0]
-        animals = lines[1:]
+def letter_picker():
 
-        while letter == prev_letter:
-            letter = choice(ascii_lowercase)
+    tweets = client.get_users_tweets(id='1465738470068871170', max_results = 5)
+    recent_letters = [tweet.text[16].lower() for tweet in tweets.data]
+    new_letter = choice([l for l in ascii_lowercase if l not in recent_letters])
 
-        myfile.seek(0)
-        myfile.write(letter)
+    return new_letter
+   
+
+def alliterative_content(letter):
+
+    with open('animals.txt','r') as myfile:
+        animals = myfile.read().splitlines()
 
     animal_generator = RandomWord(animal=animals)
+    animal = animal_generator.word(starts_with = letter)
 
     rw= RandomWord()
     adjective = rw.word(starts_with = letter, include_categories=["adjective"])
     verb_1 = rw.word(starts_with = letter, include_categories=["verb"])
     verb_2 = rw.word(starts_with = letter, include_categories=["verb"])
-    animal = animal_generator.word(starts_with = letter)
 
     while verb_1 == verb_2:
         verb_2 = rw.word(starts_with = letter, include_categories=["verb"])
@@ -42,18 +49,10 @@ def alliterative_content():
     # google_Crawler.crawl(keyword = f'{adjective} {animal}', max_num = 1)
     return content
 
-def post_tweet(content):
-    client = tweepy.Client(
-        consumer_key='RGqpj7mID6idhtpklXO219eab',
-        consumer_secret='5sTRD02qtLmAbhruVEnLDny5LegOL3ykRwPevD8Hocx4d0nTh5',
-        access_token='1465738470068871170-1aodaw0786b5a8uDRH1q3ISUzcz0bO',
-        access_token_secret='ddzYusNniUX4oy4PZ1sff25Q6NyPQY2ZdtF1DKkt9Q3Jj'
-        )
+def post_tweet():
+    content = alliterative_content(letter_picker())
     client.create_tweet(text = content)
 
-def main():
-    post_tweet(alliterative_content())
-
 if __name__ == '__main__':
-    main()
+    post_tweet()
     print('tweet tweet!')
