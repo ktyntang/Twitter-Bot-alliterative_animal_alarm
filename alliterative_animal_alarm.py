@@ -19,7 +19,6 @@ def letter_picker():
     new_letter = choice([l for l in ascii_lowercase if l not in recent_letters])
 
     return new_letter
-   
 
 def alliterative_content(letter):
 
