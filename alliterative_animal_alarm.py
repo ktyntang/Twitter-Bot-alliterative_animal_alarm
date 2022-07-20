@@ -2,15 +2,14 @@ from string import ascii_lowercase
 from random import choice
 from wonderwords import RandomWord
 import tweepy
-# from icrawler.builtin import GoogleImageCrawler
 
+# replace with Twitter App keys to run
 client = tweepy.Client(
-            bearer_token = 'AAAAAAAAAAAAAAAAAAAAAD9leQEAAAAAY7ktUuHP5cdsxSspLB6jgSxdvNk%3DtZbwf3ir8TkuaEJ83HcIDVqTfLrCD1K0613fzwhCq0BGYXB0xk',
-            consumer_key = 'RGqpj7mID6idhtpklXO219eab',
-            consumer_secret = '5sTRD02qtLmAbhruVEnLDny5LegOL3ykRwPevD8Hocx4d0nTh5',
-            access_token = '1465738470068871170-1aodaw0786b5a8uDRH1q3ISUzcz0bO',
-            access_token_secret = 'ddzYusNniUX4oy4PZ1sff25Q6NyPQY2ZdtF1DKkt9Q3Jj')
-
+            bearer_token = 'bearer_token',
+            consumer_key = 'consumer_key',
+            consumer_secret = 'consumer_secret',
+            access_token = 'access_token',
+            access_token_secret = 'acces_token_secret')
 
 def letter_picker():
 
@@ -41,11 +40,6 @@ def alliterative_content(letter):
         {verb_1.upper()} & {verb_2.upper()} MY {adjective.upper()} {animal.upper()}S!'''
         )
 
-    #IMAGE when Twitter V2 API allows it
-    # google_Crawler = GoogleImageCrawler(
-    # storage = {'root_dir': r'C:\Users\ktynt\Desktop\Py_Projects\twitter_bot'}
-    # )
-    # google_Crawler.crawl(keyword = f'{adjective} {animal}', max_num = 1)
     return content
 
 def post_tweet():
@@ -55,3 +49,11 @@ def post_tweet():
 if __name__ == '__main__':
     post_tweet()
     print('tweet tweet!')
+
+
+## post IMAGE with tweet when Twitter V2 API allows it. 
+# from icrawler.builtin import GoogleImageCrawler
+    # google_Crawler = GoogleImageCrawler(
+    # storage = {'root_dir': r'C:\Users\ktynt\Desktop\Py_Projects\twitter_bot'}
+    # )
+    # google_Crawler.crawl(keyword = f'{adjective} {animal}', max_num = 1)
